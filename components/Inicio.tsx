@@ -12,7 +12,7 @@ const Inicio = () => {
         <div className="relative h-screen w-full">
 
             <Image
-                src="/pikaso_edit.jpeg"
+                src="/back8.png"
                 alt="Auto en movimiento"
                 layout="fill"
                 objectFit="cover"
