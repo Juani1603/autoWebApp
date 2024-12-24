@@ -1,5 +1,7 @@
 "use client"
-import { useState } from "react";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { BuscarMarca } from "./";
 import Image from "next/image";
 
@@ -13,11 +15,43 @@ const BotonBusqueda = ({ otrasClases }: { otrasClases: string }) => (
             className="object-contain text-gray-700"
         />
     </button>
-)
+);
 const BarraBusqueda = () => {
     const [marca, definirMarca] = useState("");
     const [modelo, definirModelo] = useState("");
-    const handleSearch = () => { }
+
+    const router = useRouter();
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (marca.trim() === "" && modelo.trim() === "") {
+            return alert("Ingresa una marca y un modelo");
+        };
+
+        actualizarParametros(modelo.toLocaleLowerCase(), marca.toLocaleLowerCase());
+    };
+
+    const actualizarParametros = (modelo: string, marca: string) => {
+        const buscarParametros = new URLSearchParams(window.location.search);
+
+        if (modelo) {
+            buscarParametros.set("modelo", modelo);
+        } else {
+            buscarParametros.delete("modelo");
+        }
+
+        if (marca) {
+            buscarParametros.set("marca", marca);
+        } else {
+            buscarParametros.delete("marca");
+        };
+
+        const newPathname = `${window.location.pathname}?${buscarParametros.toString()}`;
+
+        router.push(newPathname);
+    };
+
     return (
         <form className="searchbar" onSubmit={handleSearch}>
             <div className="searchbar__item">

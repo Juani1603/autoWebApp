@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import { Fragment } from 'react'
 import Image from 'next/image';
@@ -99,4 +99,4 @@ const AutoDetalles = ({ isOpen, closeModal, auto }: AutoDetallesProps) => {
   )
 }
 
-export default AutoDetalles
+export default AutoDetalles */

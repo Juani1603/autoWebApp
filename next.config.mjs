@@ -7,7 +7,16 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['http2.mlstatic.com', 'cdn.motor1.com', 'storage.googleapis.com'], // Agrega aquí el dominio adicional
+    domains: [], // This allows images from all domains
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 

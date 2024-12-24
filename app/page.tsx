@@ -7,12 +7,16 @@ interface Car {
   _id: string;
   marca: string;
   modelo: string;
-  año: number;
+  anio: number;
+  imagen: string;
   kilometraje: number;
   precio: number;
   motor: string;
   transmision: string;
   combustible: string;
+  caballosDeFuerza: number;
+  descripcion: string;
+  ubicacion: string;
 }
 
 export default function Home() {
@@ -38,8 +42,6 @@ export default function Home() {
     fetchCars();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
@@ -53,14 +55,6 @@ export default function Home() {
           <p>Explora y encuentra el auto de tus sueños</p>
         </div>
 
-        <div className="home__filters">
-          <BarraBusqueda />
-          <div className="home__filter-container">
-            <FiltroCustom title="combustible" />
-            <FiltroCustom title="año" />
-          </div>
-        </div>
-
         {!isDataEmpty ? (
           <section>
             <div className="home__cars-wrapper">
@@ -72,7 +66,6 @@ export default function Home() {
         ) : (
           <div className="home__error-container">
             <h2 className="text-black text-xl font-bold">No se encontraron resultados</h2>
-            <p>{allCars?.message}</p>
           </div>
         )
         }
