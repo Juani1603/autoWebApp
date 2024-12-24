@@ -2,7 +2,9 @@ export const marcas = [
     "Alfa Romeo",
     "Audi",
     "BMW",
+    "Changan",
     "Chevrolet",
+    "Chery",
     "Citroen",
     "Dodge",
     "Fiat",
@@ -14,6 +16,7 @@ export const marcas = [
     "Kia",
     "Land Rover",
     "Lexus",
+    "Lifan",
     "Mazda",
     "Mercedes-Benz",
     "MINI",
@@ -37,21 +40,8 @@ export const marcas = [
     "Amaya Motors - Propios": "2211 1732",
     "Amaya Motors - Pocitos": "2211 2938",
   };
-  
-  export const anioDeProduccion = [
-    { title: "Año", value: "" },
-    { title: "2015", value: "2015" },
-    { title: "2016", value: "2016" },
-    { title: "2017", value: "2017" },
-    { title: "2018", value: "2018" },
-    { title: "2019", value: "2019" },
-    { title: "2020", value: "2020" },
-    { title: "2021", value: "2021" },
-    { title: "2022", value: "2022" },
-    { title: "2023", value: "2023" },
-  ];
-  
-  export const combustible = [
+   
+  export const combustible: { title: string; value: string }[] = [
     {
       title: "Nafta",
       value: "Nafta",
@@ -63,6 +53,17 @@ export const marcas = [
     {
       title: "Eléctrico",
       value: "Eléctrico",
+    },
+  ];
+
+  export const transmision: { title: string; value: string }[] = [
+    {
+      title: "Manual",
+      value: "Manual",
+    },
+    {
+      title: "Automática",
+      value: "Automática",
     },
   ];
   

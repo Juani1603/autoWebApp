@@ -55,11 +55,15 @@ export default function Home() {
           <p>Explora y encuentra el auto de tus sueños</p>
         </div>
 
+        <div className='home__filters'>
+          <BarraBusqueda />
+        </div>
+
         {!isDataEmpty ? (
           <section>
             <div className="home__cars-wrapper">
               {allCars?.map((car) => (
-                <AutoContainer auto={car} />
+                <AutoContainer key={car._id} auto={car} />
               ))}
             </div>
           </section>
