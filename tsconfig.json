@@ -37,7 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/models/Car.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -27,6 +27,16 @@ export const marcas = [
     "Volkswagen",
     "Volvo",
   ];
+
+  export const ubicaciones:{ [key: string]: string } = {
+    "Amaya Motors - Propios": "Bv. José Batlle y Ordóñez 3848, Montevideo",
+    "Amaya Motors - Pocitos": "Bartolito Mitre 2782, Montevideo",
+  };
+
+  export const telefonos: { [key: string]: string } = {
+    "Amaya Motors - Propios": "2211 1732",
+    "Amaya Motors - Pocitos": "2211 2938",
+  };
   
   export const anioDeProduccion = [
     { title: "Año", value: "" },
@@ -44,7 +54,7 @@ export const marcas = [
   export const combustible = [
     {
       title: "Nafta",
-      value: "",
+      value: "Nafta",
     },
     {
       title: "Diesel",

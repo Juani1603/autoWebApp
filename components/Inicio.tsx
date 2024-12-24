@@ -9,10 +9,10 @@ const Inicio = () => {
 
     }
     return (
-        <div className="relative h-screen w-full">
+        <div className="relative w-full h-screen">
 
             <Image
-                src="/back8.png"
+                src="/back8.webp"
                 alt="Auto en movimiento"
                 layout="fill"
                 objectFit="cover"
@@ -20,8 +20,8 @@ const Inicio = () => {
             />
 
 
-            <div className="hero flex-col items-start justify-start flex-1 pt-36 padding-x z-10 gap-5 xl:flex-col">
-                <h1 className="hero__title text-white">
+            <div className="hero h-screen flex flex-col items-center justify-center flex-1 pt-10 mb-10 px-6 z-10 gap-5 xl:flex-col">
+                <h1 className="hero__title text-white text-center">
                     Cuidamos cada detalle, para que tú solo disfrutes el camino.
                 </h1>
                 <p className="hero__subtitle text-white text-center">
@@ -29,7 +29,7 @@ const Inicio = () => {
                 </p>
                 <CustomButton
                     title="Explora nuestros autos"
-                    containerStyles="bg-transparent border-2 border-white text-white mt-10 w-auto"
+                    containerStyles="bg-transparent border-2 border-white text-white mt-10  px-6 py-2 rounded"
                     handleClick={handleScroll}
                 />
             </div>

@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { AutoProps } from 'types';
-import { CustomButton, AutoDetalles } from 'components';
+import Image from 'next/image';
+import { CustomButton } from 'components';
 
 interface AutoContainerProps {
-    auto: AutoProps;
+    auto: AutoProps; 
 }
+
 const AutoContainer = ({ auto }: AutoContainerProps) => {
-    const { marca, modelo, anio, kilometraje, precio, imagen, ubicacion } = auto;
-    const [isOpen, setIsOpen] = useState(false);
+    const { _id, marca, modelo, anio, kilometraje, precio, imagen } = auto; 
+    const router = useRouter();
+
+    const handleViewDetails = () => {
+        // Usamos el _id de MongoDB para la navegación
+        router.push(`/autos/${_id}`);
+    };
+
     return (
         <div className='car-card group'>
             <div className='car-card__content'>
@@ -29,42 +36,22 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
             </h3>
 
             <div className='relative w-full h-40 my-3 object-contain'>
-                <Image src={imagen} alt={modelo} fill priority className='w-full object-container rounded-lg' />
+                <Image src={imagen} alt={modelo} fill priority className='w-full  rounded-lg' />
             </div>
 
             <div className='relative flex w-full mt-2'>
-                {/* <div className='flex group-hover:invisible w-full justify-between text-gray'>
-                    <div className='flex flex-col justify-center items-center gap-2'>
-                        <Image src={"/steering-wheel.svg"} width={20} height={20} alt="steering wheel" />
-                        <p className='text-[14px]'></p>
-                    </div>
-                    <div className='flex flex-col justify-center items-center gap-2'>
-                        <Image src={"/gas.svg"} width={20} height={20} alt="gas" />
-                        <p className='text-[14px]'>{precio}</p>
-                    </div>
-                     <div className='flex flex-col justify-center items-center gap-2'>
-                        <Image src={"/steering-wheel.svg"} width={20} height={20} alt="gas" />
-                        <p className='text-[14px]'></p>
-                    </div>
-                    <div className='flex flex-col justify-center items-center gap-2'>
-                        <Image src={"/steering-wheel.svg"} width={20} height={20} alt="gas" />
-                        <p className='text-[14px]'>{ubicacion}</p>
-                    </div>
-                </div> */}
-
                 <div className='car-card__btn-container'>
                     <CustomButton
                         title='Ver detalles'
                         containerStyles='w-full py-[12px] mb-[10px] rounded-full bg-primary-blue'
                         textStyles="text-white text-[14px] leading-[10px] font-bold"
                         rightIcon="/right-arrow.svg"
-                        handleClick={() => setIsOpen(true)}
+                        handleClick={handleViewDetails}
                     />
                 </div>
             </div>
-            <AutoDetalles isOpen={isOpen} closeModal={() => setIsOpen(false)} auto={auto} />
         </div>
-    )
-}
+    );
+};
 
-export default AutoContainer
+export default AutoContainer;

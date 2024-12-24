@@ -23,4 +23,10 @@ export interface AutoProps {
     precio: number;
     imagen: string;
     ubicacion: string;
-}
+    _id: string;
+    motor: string; 
+    caballosDeFuerza: number; 
+    transmision: string; 
+    combustible: string;
+    descripcion: string; 
+  }
