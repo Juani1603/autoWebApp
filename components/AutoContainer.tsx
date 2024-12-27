@@ -6,11 +6,11 @@ import Image from 'next/image';
 import { CustomButton } from 'components';
 
 interface AutoContainerProps {
-    auto: AutoProps; 
+    auto: AutoProps;
 }
 
 const AutoContainer = ({ auto }: AutoContainerProps) => {
-    const { _id, marca, modelo, anio, kilometraje, precio, imagen } = auto; 
+    const { _id, marca, modelo, anio, kilometraje, precio, imagen } = auto;
     const router = useRouter();
 
     const handleViewDetails = () => {
@@ -19,7 +19,7 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
     };
 
     return (
-        <div className='car-card group'>
+        <div className='car-card group cursor-pointer'>
             <div className='car-card__content'>
                 <h2 className='car-card__content-title'>
                     {marca} {modelo}
@@ -35,9 +35,16 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
                 ${new Intl.NumberFormat('es-UR', { style: 'decimal', minimumFractionDigits: 0 }).format(precio)}
             </h3>
 
-            <div className='relative w-full h-40 my-3 object-contain'>
-                <Image src={imagen} alt={modelo} fill priority className='w-full  rounded-lg' />
+            <div className="relative w-full aspect-video my-2">
+                <Image
+                    src={imagen}
+                    alt={modelo}
+                    fill
+                    priority
+                    className="w-full h-full rounded-md object-cover"
+                />
             </div>
+
 
             <div className='relative flex w-full mt-2'>
                 <div className='car-card__btn-container'>

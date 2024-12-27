@@ -18,14 +18,14 @@ const Navbar = () => {
         {/* Contenedor para agrupar los logos */}
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center">
-            <Image src="/logo-white.svg" alt="Amaya Logo Blanco" width={150} height={5} className="object-contain" />
+            <Image src="/logo-white.svg" alt="Amaya Logo Blanco" width={150} height={50} className="object-contain no-auto-resize" />
           </Link>
           <p className="text-white text-4xl font-extralight">|</p>
-          <Image src="/peugeot-logo.svg" alt="Logo Peugeot" priority width={60} height={0} />
+          <Image src="/peugeot-logo.svg" alt="Logo Peugeot" priority width={60} height={0} className="object-contain no-auto-resize"/>
         </div>
         {/* Icono del usuario */}
         <Link href="/login">
-          <Image src="/user.svg" alt="User Icon" width={30} height={0} className="object-contain" />
+          <Image src="/user.svg" alt="User Icon" width={30} height={30} className="object-contain no-auto-resize" />
         </Link>
       </nav>
     </header>

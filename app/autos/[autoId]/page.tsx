@@ -165,7 +165,7 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
         {/* Descripción */}
         <div className="text-start border-t border-gray-200 pt-8 mb-8">
           <h2 className="text-xl font-bold mb-5">Descripción</h2>
-          <p className='text-gray-700'>{descripcion}</p>
+          <p className='text-gray-700 whitespace-pre-line'>{descripcion}</p>
         </div>
 
         {/* Información */}

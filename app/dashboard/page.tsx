@@ -30,8 +30,8 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCars`);
-                if (!response.ok) throw new Error('Error al obtener los autos');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getCars`);
+                if (!response.ok) throw new Error("Error al obtener los autos");
 
                 const data: Post[] = await response.json();
                 setAllCars(data);
@@ -47,6 +47,24 @@ const Dashboard = () => {
 
     const handleCreatePost = () => {
         router.push("/dashboard/create"); // Redirige a la página de creación
+    };
+
+    const handleDeletePost = async (id: string) => {
+        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta publicación?");
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteCar?id=${id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) throw new Error("Error al eliminar el auto");
+
+            // Filtra el auto eliminado de la lista local
+            setAllCars((prevCars) => prevCars.filter((car) => car._id !== id));
+        } catch (err: any) {
+            alert(`Error: ${err.message}`);
+        }
     };
 
     const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
@@ -85,7 +103,7 @@ const Dashboard = () => {
                                             />
                                         </button>
                                         <button
-                                            onClick={() => alert("Eliminar publicación")}
+                                            onClick={() => handleDeletePost(car._id)}
                                             className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
                                         >
                                             <Image
@@ -95,7 +113,6 @@ const Dashboard = () => {
                                                 height={20}
                                                 className="text-white"
                                             />
-
                                         </button>
                                     </div>
                                 </div>

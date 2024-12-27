@@ -27,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCars`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getCars`);
         if (!response.ok) throw new Error('Error al obtener los autos');
 
         const data: Car[] = await response.json();
@@ -46,7 +46,7 @@ export default function Home() {
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden bg-gray-50">
       <Inicio />
 
       <div className="mt-16 padding-x padding-y max-width" id="discover">

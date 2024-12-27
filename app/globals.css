@@ -12,6 +12,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  img:not(.no-auto-resize)  {
+      width: auto;
+      height: auto;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -112,7 +119,7 @@
 
 /* START: Car Card styles */
 .car-card {
-  @apply flex flex-col p-6 justify-center items-start text-black-100 bg-primary-blue-100 hover:bg-white hover:shadow-md rounded-3xl;
+  @apply flex flex-col px-6 pt-6 pb-3 justify-center items-start text-black-100 bg-white shadow-md hover:bg-white hover:shadow-md rounded-3xl;
 }
 
 .car-card__content {

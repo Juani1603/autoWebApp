@@ -11,7 +11,7 @@ const CreatePost = () => {
     const [marca, setMarca] = useState<string>("");
     const [modelo, setModelo] = useState<string>("");
     const [anio, setAnio] = useState<number | string>("");
-    const [kilometraje, setKilometraje] = useState<number | string>("");  // Nuevo estado
+    const [kilometraje, setKilometraje] = useState<number | string>(""); 
     const [precio, setPrecio] = useState<number | string>("");
     const [motor, setMotor] = useState<string>("");
     const [transmision, setTransmision] = useState<string>("");
@@ -46,7 +46,7 @@ const CreatePost = () => {
         };
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createCar`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createCar`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

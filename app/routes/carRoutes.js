@@ -1,22 +1,40 @@
 const express = require('express');
-const carModel = require('../models/Car');  // Asegúrate de que el modelo Car esté bien configurado
-
+const carModel = require('../models/Car'); 
 const router = express.Router();
 
 // Ruta GET para obtener los autos
 router.get('/getCars', async (req, res) => {
   try {
     const cars = await carModel.find();
-    res.status(200).json(cars);  // Devuelve los autos como JSON
+    res.status(200).json(cars);  
   } catch (error) {
     console.error('Error al obtener los autos:', error);  
     res.status(500).json({ message: 'Error al obtener los autos', error: error.message });
   }
 });
 
-// Ruta POST para crear un nuevo automóvil
+// Ruta GET para obtener un auto por su ID
+router.get('/autos/:autoId', async (req, res) => {
+  try {
+    const { autoId } = req.params;
+
+    // Buscar el auto por su ID
+    const car = await carModel.findById(autoId);
+
+    if (!car) {
+      return res.status(404).json({ message: 'Auto no encontrado' });
+    }
+
+    res.status(200).json(car); 
+  } catch (error) {
+    console.error('Error al obtener el auto:', error);
+    res.status(500).json({ message: 'Error al obtener los datos del auto', error: error.message });
+  }
+});
+
+// Ruta POST para crear un nuevo auto
 router.post('/createCar', async (req, res) => {
-  const { marca, modelo, anio, kilometraje ,precio, motor, transmision, combustible, caballosDeFuerza, descripcion, ubicacion, imagen } = req.body;
+  const { marca, modelo, anio, kilometraje, precio, motor, transmision, combustible, caballosDeFuerza, descripcion, ubicacion, imagen } = req.body;
 
   if (!marca || !modelo || !anio || !precio || !kilometraje || !motor || !transmision || !combustible || !caballosDeFuerza || !descripcion || !ubicacion) {
     return res.status(400).json({ message: 'Todos los campos son requeridos' });
@@ -39,11 +57,39 @@ router.post('/createCar', async (req, res) => {
     });
 
     await newCar.save();
-    res.status(201).json(newCar);  // Responde con el nuevo auto creado
+    res.status(201).json(newCar);  
   } catch (error) {
     console.error('Error al crear el auto:', error);
     res.status(500).json({ message: 'Error al crear el auto', error: error.message });
   }
 });
+
+
+// Ruta DELETE para eliminar un automóvil
+router.delete('/deleteCar', async (req, res) => {
+  const { id } = req.query; // Asegúrate de obtener el ID desde los parámetros de consulta
+  
+  if (!id) {
+    return res.status(400).json({ message: 'Se requiere un ID para eliminar el auto' });
+  }
+
+  try {
+    const car = await carModel.findByIdAndDelete(id);
+    if (!car) {
+      return res.status(404).json({ message: 'Auto no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Auto eliminado correctamente' });
+  } catch (error) {
+    console.error('Error al eliminar el auto:', error);
+    res.status(500).json({ message: 'Error al eliminar el auto', error: error.message });
+  }
+});
+
+
+
+
+
+
 
 module.exports = router;
