@@ -1,6 +1,7 @@
 const express = require('express');
 const carModel = require('../models/Car'); 
 const router = express.Router();
+const { findCarsByFilters } = require('../api/carService');
 
 // Ruta GET para obtener los autos
 router.get('/getCars', async (req, res) => {
@@ -67,7 +68,7 @@ router.post('/createCar', async (req, res) => {
 
 // Ruta DELETE para eliminar un automóvil
 router.delete('/deleteCar', async (req, res) => {
-  const { id } = req.query; // Asegúrate de obtener el ID desde los parámetros de consulta
+  const { id } = req.query; 
   
   if (!id) {
     return res.status(400).json({ message: 'Se requiere un ID para eliminar el auto' });
@@ -86,10 +87,20 @@ router.delete('/deleteCar', async (req, res) => {
   }
 });
 
+// Ruta GET para obtener autos filtrados por marca y/o modelo
+router.get('/getCarByBrand', async (req, res) => {
+  const { marca, modelo } = req.query;
 
-
-
-
-
+  try {
+      const cars = await findCarsByFilters({ marca, modelo });
+      if (!cars.length) {
+          return res.status(404).json({ message: 'No se encontraron autos con los filtros proporcionados' });
+      }
+      res.status(200).json(cars);
+  } catch (error) {
+      console.error('Error al filtrar los autos:', error);
+      res.status(500).json({ message: 'Error al filtrar los autos', error: error.message });
+  }
+});
 
 module.exports = router;

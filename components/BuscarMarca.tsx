@@ -25,7 +25,7 @@ const BuscarMarca = ({ marca, definirMarca, customClass }: BuscarMarcaProps & { 
               src="/car-logo.svg"
               width={20}
               height={20}
-              className="ml-4"
+              className="ml-4 no-auto-resize"
               alt="Car Logo"
             />
           </Combobox.Button>
@@ -44,7 +44,9 @@ const BuscarMarca = ({ marca, definirMarca, customClass }: BuscarMarcaProps & { 
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options>
+            <Combobox.Options
+             className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-72 overflow-y-auto"
+            >
               {marcasFiltradas.map((item) => (
                 <Combobox.Option
                   key={item}

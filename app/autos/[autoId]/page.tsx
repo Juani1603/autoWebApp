@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: AutoDetallesProps): Promise<M
 
   const objectId = new ObjectId(autoId);
 
-  // Buscar el auto por su ID de MongoDB sin lean()
+  // Buscar el auto por su ID de MongoDB
   const car = await CarModel.findOne({ _id: objectId });
 
   if (!car) {
@@ -110,7 +110,7 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
             alt={modelo}
             width={800}
             height={600}
-            className="object-contain rounded-lg w-full"
+            className="object-contain rounded-lg w-full no-auto-resize"
           />
         </div>
         <div className='text-start text-4xl mb-8'>
@@ -121,7 +121,7 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
 
         <div className="flex flex-col items-center gap-4 mt-7">
           <button className="px-6 py-3 mb-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition flex items-center gap-3">
-            <img src="/whatsapp.svg" alt="Logo WhatsApp" className="w-6 h-6" />
+            <img src="/whatsapp.svg" alt="Logo WhatsApp" className="w-6 h-6 no-auto-resize" />
             <span>Contactar</span>
           </button>
           <p className="text-gray-500 text-sm mb-12">También podés llamarnos al <strong>(+598) 2211 1732</strong></p>
@@ -132,32 +132,32 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
           <h2 className="text-xl font-bold mb-5">Características del auto</h2>
 
           <div className="mb-2 flex items-center gap-2">
-            <img src="/car.svg" alt="Auto" className="w-5 h-6" />
+            <img src="/car.svg" alt="Auto" className="w-5 h-6 no-auto-resize" />
             <strong>Modelo:</strong> <p className='text-gray-700'>{marca} {modelo}</p>
           </div>
 
           <div className="mb-2 flex items-center gap-2">
-            <img src="/drive.svg" alt="Kilometraje" className="w-5 h-6" />
+            <img src="/drive.svg" alt="Kilometraje" className="w-5 h-6 no-auto-resize" />
             <strong>Kilómetros:</strong> <p className='text-gray-700'>{kilometraje.toLocaleString('es-UY')} km</p>
           </div>
 
           <div className="mb-2 flex items-center gap-2">
-            <img src="/engine.svg" alt="Motor" className="w-5 h-6" />
+            <img src="/engine.svg" alt="Motor" className="w-5 h-6 no-auto-resize" />
             <strong>Motor:</strong> <p className='text-gray-700'>{motor}</p>
           </div>
 
           <div className="mb-2 flex items-center gap-2">
-            <img src="/hp.svg" alt="Motor" className="w-5 h-6" />
+            <img src="/hp.svg" alt="Motor" className="w-5 h-6 no-auto-resize" />
             <strong>Potencia:</strong> <p className='text-gray-700'>{caballosDeFuerza} cv</p>
           </div>
 
           <div className="mb-2 flex items-center gap-2">
-            <img src="/transmission.svg" alt="Transmisión" className="w-5 h-6" />
+            <img src="/transmission.svg" alt="Transmisión" className="w-5 h-6 no-auto-resize" />
             <strong>Transmisión:</strong> <p className='text-gray-700'>{transmision}</p>
           </div>
 
           <div className="mb-2 flex items-center gap-2">
-            <img src="/gas.svg" alt="Combustible" className="w-5 h-6" />
+            <img src="/gas.svg" alt="Combustible" className="w-5 h-6 no-auto-resize" />
             <strong>Combustible:</strong> <p className='text-gray-700'>{combustible}</p>
           </div>
         </div>
@@ -173,25 +173,25 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
           <h2 className="text-xl font-bold mb-5">Información</h2>
 
           <div className="mb-3 flex items-center gap-2 ml-[-3px]">
-            <img src="/location.svg" alt="Ubicación" className="w-5 h-6" />
+            <img src="/location.svg" alt="Ubicación" className="w-5 h-6 no-auto-resize" />
             <strong className="whitespace-nowrap">Ubicación:</strong>
             <p className="text-sm text-gray-700 break-words">{ubicacion}</p>
           </div>
 
           <div className="mb-3 flex items-center gap-2 ml-[-3px]">
-            <img src="/door.svg" alt="Dirección" className="w-5 h-6" />
+            <img src="/door.svg" alt="Dirección" className="w-5 h-6 no-auto-resize" />
             <strong className="whitespace-nowrap">Dirección:</strong>
             <p className="text-sm text-gray-700 break-words">{direccion}</p>
           </div>
 
           <div className="mb-3 flex items-center gap-2 ml-[-3px]">
-            <img src="/phone.svg" alt="Dirección" className="w-5 h-6" />
+            <img src="/phone.svg" alt="Dirección" className="w-5 h-6 no-auto-resize" />
             <strong className="whitespace-nowrap">Teléfono:</strong>
             <p className="text-sm text-gray-700 break-words">{telefono}</p>
           </div>
           
           <div className="mb-3 flex items-start gap-2 ml-[-3px]">
-            <img src="/clock.svg" alt="Horarios" className="w-5 h-6" />
+            <img src="/clock.svg" alt="Horarios" className="w-5 h-6 no-auto-resize" />
             <div>
               <strong className="block pb-1">Horarios de atención:</strong>
               <p className="text-sm text-gray-700 break-words">

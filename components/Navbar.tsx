@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";  
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   // Cambia el color de fondo dependiendo de la ruta
   const isAutoPage = pathname?.includes("/autos/");
@@ -18,14 +18,21 @@ const Navbar = () => {
         {/* Contenedor para agrupar los logos */}
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center">
-            <Image src="/logo-white.svg" alt="Amaya Logo Blanco" width={150} height={50} className="object-contain no-auto-resize" />
+            <Image
+              src="/logo-white.svg"
+              alt="Amaya Logo Blanco"
+              width={150}
+              height={50}
+              className="object-contain no-auto-resize"
+              style={{ minWidth: "80px" }}
+            />
           </Link>
           <p className="text-white text-4xl font-extralight">|</p>
-          <Image src="/peugeot-logo.svg" alt="Logo Peugeot" priority width={60} height={0} className="object-contain no-auto-resize"/>
+          <Image src="/peugeot-logo.svg" alt="Logo Peugeot" priority width={60} height={0} className="object-contain no-auto-resize" />
         </div>
         {/* Icono del usuario */}
         <Link href="/login">
-          <Image src="/user.svg" alt="User Icon" width={30} height={30} className="object-contain no-auto-resize" />
+          <Image src="/user.svg" alt="User Icon" width={35} height={35} className="object-contain no-auto-resize ml-4" />
         </Link>
       </nav>
     </header>

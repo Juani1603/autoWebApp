@@ -1,6 +1,6 @@
 "use client";
 
-import { Inicio, BarraBusqueda, FiltroCustom, AutoContainer } from "components";
+import { Inicio, BarraBusqueda, AutoContainer } from "components";
 import { useState, useEffect } from 'react';
 
 interface Car {
@@ -46,7 +46,7 @@ export default function Home() {
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
   return (
-    <main className="overflow-hidden bg-gray-50">
+    <main className="overflow-hidden bg-gray-50 pb-10">
       <Inicio />
 
       <div className="mt-16 padding-x padding-y max-width" id="discover">
