@@ -88,7 +88,7 @@ router.delete('/deleteCar', async (req, res) => {
 });
 
 // Ruta GET para obtener autos filtrados por marca y/o modelo
-router.get('/getCarByBrand', async (req, res) => {
+router.get('/', async (req, res) => {
   const { marca, modelo } = req.query;
 
   try {

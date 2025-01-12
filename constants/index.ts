@@ -58,6 +58,10 @@ export const marcas = [
       title: "Eléctrico",
       value: "Eléctrico",
     },
+    {
+      title: "Híbrido",
+      value: "Híbrido",
+    },
   ];
 
   export const transmision: { title: string; value: string }[] = [

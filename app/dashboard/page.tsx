@@ -99,7 +99,7 @@ const Dashboard = () => {
                                                 alt="pencil"
                                                 width={20}
                                                 height={20}
-                                                className="text-white"
+                                                className="text-white no-auto-resize"
                                             />
                                         </button>
                                         <button
@@ -111,7 +111,7 @@ const Dashboard = () => {
                                                 alt="trash"
                                                 width={20}
                                                 height={20}
-                                                className="text-white"
+                                                className="text-white no-auto-resize"
                                             />
                                         </button>
                                     </div>

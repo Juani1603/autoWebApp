@@ -58,7 +58,7 @@ const BarraBusqueda = () => {
       buscarParametros.delete("marca");
     }
 
-    const newPathname = `/getCarByBrand?${buscarParametros.toString()}`;
+    const newPathname = `/${buscarParametros.toString()}`;
 
     router.push(newPathname);
   };

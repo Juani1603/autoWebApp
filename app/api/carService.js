@@ -1,7 +1,7 @@
-import dbConnect from '../utils/db';
-import Car from '../models/Car';
+const dbConnect = require('../utils/db');
+const Car = require('../models/Car');
 
-export const findCarsByFilters = async (filters) => {
+const findCarsByFilters = async (filters) => {
     await dbConnect();
 
     const query = {};
@@ -11,3 +11,5 @@ export const findCarsByFilters = async (filters) => {
     const cars = await Car.find(query);
     return cars;
 };
+
+module.exports = { findCarsByFilters };
