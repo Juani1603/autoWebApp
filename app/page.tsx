@@ -1,7 +1,7 @@
 "use client";
 
 import { Inicio, BarraBusqueda, AutoContainer } from "components";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface Car {
   _id: string;
@@ -24,26 +24,40 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getCars`);
-        if (!response.ok) throw new Error('Error al obtener los autos');
+  const fetchCars = async (marca?: string, modelo?: string) => {
+    setLoading(true);
+    setError(null);
 
-        const data: Car[] = await response.json();
-        setAllCars(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+    try {
+      let url = `${process.env.NEXT_PUBLIC_API_URL}/getCars`;
+      if (marca || modelo) {
+        const params = new URLSearchParams();
+        if (marca) params.append("marca", marca);
+        if (modelo) params.append("modelo", modelo);
+        url += `?${params.toString()}`;
       }
-    };
 
-    fetchCars();
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Error al obtener los autos");
+
+      const data: Car[] = await response.json();
+      setAllCars(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCars(); // Cargar todos los autos al inicio
   }, []);
 
+  const handleSearch = (marca: string, modelo: string) => {
+    fetchCars(marca, modelo);
+  };
 
-  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1;
 
   return (
     <main className="overflow-hidden bg-gray-50 pb-10">
@@ -56,7 +70,7 @@ export default function Home() {
         </div>
 
         <div className='home__filters'>
-          <BarraBusqueda />
+          <BarraBusqueda onSearch={handleSearch} />
         </div>
 
         {!isDataEmpty ? (
@@ -71,8 +85,7 @@ export default function Home() {
           <div className="home__error-container">
             <h2 className="text-black text-xl font-bold">No se encontraron resultados</h2>
           </div>
-        )
-        }
+        )}
       </div>
     </main>
   );

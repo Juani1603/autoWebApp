@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 import { BuscarMarca } from "./";
 import Image from "next/image";
 
 const BotonBusqueda = ({ otrasClases }: { otrasClases: string }) => (
-  <button type="submit" className={`-ml-3 z-10 ${otrasClases}`}>
+  <button type="submit" className={otrasClases}>
     <Image
       src="/magnifying-glass.svg"
       alt="magnifying glass"
@@ -17,50 +16,20 @@ const BotonBusqueda = ({ otrasClases }: { otrasClases: string }) => (
   </button>
 );
 
-const BarraBusqueda = () => {
+const BarraBusqueda = ({ onSearch }: { onSearch: (marca: string, modelo: string) => void }) => {
   const [marca, definirMarca] = useState("");
   const [modelo, definirModelo] = useState("");
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  // Sincronizar los parámetros de la URL con el estado
-  useEffect(() => {
-    const marcaParam = searchParams.get("marca") || "";
-    const modeloParam = searchParams.get("modelo") || "";
-
-    definirMarca(marcaParam);
-    definirModelo(modeloParam);
-  }, [searchParams]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log("Marca:", marca, "Modelo:", modelo); // Log para depuración
     if (marca.trim() === "" && modelo.trim() === "") {
-      return alert("Ingresa una marca y un modelo");
+      alert("Ingresa al menos una marca o un modelo");
+      return;
     }
 
-    actualizarParametros(modelo.trim().toLowerCase(), marca.trim().toLowerCase());
-  };
-
-  const actualizarParametros = (modelo: string, marca: string) => {
-    const buscarParametros = new URLSearchParams(window.location.search);
-
-    if (modelo) {
-      buscarParametros.set("modelo", modelo);
-    } else {
-      buscarParametros.delete("modelo");
-    }
-
-    if (marca) {
-      buscarParametros.set("marca", marca);
-    } else {
-      buscarParametros.delete("marca");
-    }
-
-    const newPathname = `/${buscarParametros.toString()}`;
-
-    router.push(newPathname);
+    onSearch(marca.trim().toLowerCase(), modelo.trim().toLowerCase());
   };
 
   return (

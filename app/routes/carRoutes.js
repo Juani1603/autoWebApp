@@ -5,12 +5,17 @@ const { findCarsByFilters } = require('../api/carService');
 
 // Ruta GET para obtener los autos
 router.get('/getCars', async (req, res) => {
+  const { marca, modelo } = req.query;
+
   try {
-    const cars = await carModel.find();
-    res.status(200).json(cars);  
+      const cars = await findCarsByFilters({ marca, modelo });
+      if (!cars.length) {
+          return res.status(404).json({ message: 'No se encontraron autos con los filtros proporcionados' });
+      }
+      res.status(200).json(cars);
   } catch (error) {
-    console.error('Error al obtener los autos:', error);  
-    res.status(500).json({ message: 'Error al obtener los autos', error: error.message });
+      console.error('Error al filtrar los autos:', error);
+      res.status(500).json({ message: 'Error al filtrar los autos', error: error.message });
   }
 });
 
@@ -37,7 +42,7 @@ router.get('/autos/:autoId', async (req, res) => {
 router.post('/createCar', async (req, res) => {
   const { marca, modelo, anio, kilometraje, precio, motor, transmision, combustible, caballosDeFuerza, descripcion, ubicacion, imagen } = req.body;
 
-  if (!marca || !modelo || !anio || !precio || !kilometraje || !motor || !transmision || !combustible || !caballosDeFuerza || !descripcion || !ubicacion) {
+  if (!marca || !modelo || !anio || !precio || kilometraje == null || kilometraje < 0 || !motor || !transmision || !combustible || !caballosDeFuerza || !descripcion || !ubicacion) {
     return res.status(400).json({ message: 'Todos los campos son requeridos' });
   }
 
@@ -88,14 +93,17 @@ router.delete('/deleteCar', async (req, res) => {
 });
 
 // Ruta GET para obtener autos filtrados por marca y/o modelo
-router.get('/', async (req, res) => {
-  const { marca, modelo } = req.query;
+router.get('/marca=:marca/modelo=:modelo?', async (req, res) => {
+  const { marca, modelo } = req.params;
 
   try {
+      // Si el modelo no es proporcionado, solo se filtra por marca
       const cars = await findCarsByFilters({ marca, modelo });
+
       if (!cars.length) {
           return res.status(404).json({ message: 'No se encontraron autos con los filtros proporcionados' });
       }
+
       res.status(200).json(cars);
   } catch (error) {
       console.error('Error al filtrar los autos:', error);
@@ -103,4 +111,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = router
