@@ -7,11 +7,13 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: [], // This allows images from all domains
+    domains: ['localhost'],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: 'http',
+        hostname: '**', // Acepta cualquier dominio (incluye localhost)
+        port: '*',      // Acepta cualquier puerto
+        pathname: '**', // Permite cualquier ruta
       },
     ],
   },

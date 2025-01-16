@@ -7,7 +7,7 @@ const carSchema = new mongoose.Schema({
   kilometraje: { type: Number, required: true },
   precio: { type: Number, required: true },
   descripcion: { type: String, required: true },
-  imagen: { type: String, required: true },
+  imagenes: {type: [String], required: true},
   ubicacion: { type: String, required: true },
   motor: { type: String, required: true }, 
   caballosDeFuerza: { type: Number, required: true }, 

@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { ubicaciones } from 'constants/index';
 import { telefonos } from 'constants/index';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
 
 interface AutoDetallesProps {
   params: {
@@ -71,7 +74,7 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
     kilometraje,
     precio,
     descripcion,
-    imagen,
+    imagenes,
     ubicacion,
     motor,
     caballosDeFuerza,
@@ -92,10 +95,10 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
         {/* Contenedor principal con control de orden en diferentes tamaños */}
         <div className="flex flex-col lg:flex-row lg:gap-8 lg:items-center lg:justify-between">
 
-          {/* Imagen del auto (lado izquierdo en pantallas grandes) */}
+          {/* Imagen del auto*/}
           <div className="w-auto flex justify-center mb-6 lg:mb-8 lg:w-1/2 lg:order-1">
             <Image
-              src={imagen}
+              src={imagenes}
               alt={modelo}
               width={800}
               height={600}
@@ -103,11 +106,11 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
             />
           </div>
 
-          {/* Información (km, año, marca, modelo, precio y botón) en el lado derecho */}
+          {/* Información (km, año, marca, modelo, precio y botón) */}
           <div className="w-full flex flex-col items-start lg:w-1/2 lg:order-2">
 
             {/* Información superior (km y año) */}
-            <div className="flex justify-center lg:justify-start lg:text-lg items-center gap-2 mb-1">
+            <div className=" flex justify-center lg:justify-start lg:text-lg items-center gap-2 mb-1">
               <span className="text-gray-500 text-md">{anio}</span>
               <span className="text-gray-500 text-md">|</span>
               <span className="text-gray-500 text-md">
@@ -115,7 +118,7 @@ const AutoDetalles = async ({ params }: AutoDetallesProps) => {
               </span>
             </div>
 
-            {/* Título (marca, modelo y motor) */}
+            {/* Título*/}
             <h1 className="text-2xl font-bold mb-4 text-start lg:text-3xl">
               {marca} {modelo} - {motor}
             </h1>

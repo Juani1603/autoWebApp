@@ -4,13 +4,15 @@ import { useRouter } from 'next/navigation';
 import { AutoProps } from 'types';
 import Image from 'next/image';
 import { CustomButton } from 'components';
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
 interface AutoContainerProps {
     auto: AutoProps;
 }
 
 const AutoContainer = ({ auto }: AutoContainerProps) => {
-    const { _id, marca, modelo, anio, kilometraje, precio, imagen } = auto;
+    const { _id, marca, modelo, anio, kilometraje, precio, imagenes } = auto;
     const router = useRouter();
 
     const handleViewDetails = () => {
@@ -36,13 +38,27 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
             </h3>
 
             <div className="relative w-full aspect-video my-2">
-                <Image
-                    src={imagen}
-                    alt={modelo}
-                    fill
-                    priority
-                    className="w-full h-full rounded-md object-cover"
-                />
+                <Swiper navigation modules={[Navigation]} className="mySwiper" spaceBetween={10} slidesPerView={1}>
+                    {imagenes.length > 0 &&
+                        imagenes.map((imagen, index) => {
+                            const imageUrl = imagen ? `${process.env.NEXT_PUBLIC_API_URL}${imagen}` : null;
+                            return (
+                                imageUrl && (
+                                    <SwiperSlide key={index}>
+                                        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                                            <Image
+                                                src={imageUrl}
+                                                alt={modelo || 'Sin descripción'}
+                                                fill
+                                                priority
+                                                className="rounded-md object-cover"
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                )
+                            );
+                        })}
+                </Swiper>
             </div>
 
 

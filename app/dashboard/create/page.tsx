@@ -11,47 +11,70 @@ const CreatePost = () => {
     const [marca, setMarca] = useState<string>("");
     const [modelo, setModelo] = useState<string>("");
     const [anio, setAnio] = useState<number | string>("");
-    const [kilometraje, setKilometraje] = useState<number | string>(""); 
+    const [kilometraje, setKilometraje] = useState<number | string>("");
     const [precio, setPrecio] = useState<number | string>("");
     const [motor, setMotor] = useState<string>("");
     const [transmision, setTransmision] = useState<string>("");
-    const [combustibleSeleccionado, setCombustibleSeleccionado] = useState<string>(""); 
+    const [combustibleSeleccionado, setCombustibleSeleccionado] = useState<string>("");
     const [caballosDeFuerza, setCaballosDeFuerza] = useState<number | string>("");
     const [descripcion, setDescripcion] = useState<string>("");
     const [ubicacion, setUbicacion] = useState<string>("");
-    const [imagen, setImagen] = useState<string>("");
+    const [imagenes, setImagenes] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const router = useRouter();
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setImagenes(Array.from(e.target.files));
+        }
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
-        const newPost = {
-            marca,
-            modelo,
-            anio: Number(anio),
-            kilometraje: Number(kilometraje), 
-            precio: Number(precio),
-            motor,
-            transmision,
-            combustible: combustibleSeleccionado, 
-            caballosDeFuerza: Number(caballosDeFuerza),
-            descripcion,
-            ubicacion,
-            imagen,
-        };
+        const formData = new FormData();
+
+        formData.append("marca", marca);
+        formData.append("modelo", modelo);
+        formData.append("anio", String(anio));
+        formData.append("kilometraje", String(kilometraje));
+        formData.append("precio", String(precio));
+        formData.append("motor", motor);
+        formData.append("transmision", transmision);
+        formData.append("combustible", combustibleSeleccionado);
+        formData.append("caballosDeFuerza", String(caballosDeFuerza));
+        formData.append("descripcion", descripcion);
+        formData.append("ubicacion", ubicacion);
+
+        console.log("Marca", marca);
+        console.log("Modelo", modelo);
+        console.log("Año", anio);
+        console.log("Kilometraje", kilometraje);
+        console.log("Precio", precio);
+        console.log("Motor", motor);
+        console.log("Transmision", transmision);
+        console.log("Combustible", combustibleSeleccionado);
+        console.log("Caballos de Fuerza", caballosDeFuerza);
+        console.log("Descripción", descripcion);
+        console.log("Ubicación", ubicacion);
+
+        imagenes.forEach((imagen) => {
+            formData.append("imagenes", imagen);
+            console.log(imagen);
+            
+        });
 
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createCar`, {
                 method: "POST",
+                body: formData,
                 headers: {
-                    "Content-Type": "application/json",
+                    Accept: "application/json",
                 },
-                body: JSON.stringify(newPost),
             });
 
             if (!response.ok) throw new Error("Error al crear la publicación");
@@ -111,7 +134,7 @@ const CreatePost = () => {
                     />
                 </div>
 
-               
+
                 <div className="mb-4">
                     <label htmlFor="kilometraje" className="block text-sm font-medium text-gray-700">
                         Kilometraje (km)
@@ -185,8 +208,8 @@ const CreatePost = () => {
                     </label>
                     <select
                         id="combustible"
-                        value={combustibleSeleccionado} // Variable de estado para el combustible seleccionado
-                        onChange={(e) => setCombustibleSeleccionado(e.target.value)} // Función para actualizar el estado
+                        value={combustibleSeleccionado}
+                        onChange={(e) => setCombustibleSeleccionado(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
                         required
                     >
@@ -253,16 +276,23 @@ const CreatePost = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="imagen" className="block text-sm font-medium text-gray-700">
-                        Imagen URL
+                    <label htmlFor="imagenes" className="block text-sm font-medium text-gray-700">
+                        Imágenes
                     </label>
                     <input
-                        type="text"
-                        id="imagen"
-                        value={imagen}
-                        onChange={(e) => setImagen(e.target.value)}
+                        type="file"
+                        id="imagenes"
+                        name="imagenes"
+                        multiple
+                        accept="image/*"
+                        onChange={handleFileChange}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                     />
+                    {imagenes.length > 0 && (
+                        <p className="text-sm text-gray-500 mt-1">
+                            {imagenes.length} archivo(s) seleccionado(s).
+                        </p>
+                    )}
                 </div>
 
                 <button

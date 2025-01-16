@@ -8,7 +8,7 @@ interface Car {
   marca: string;
   modelo: string;
   anio: number;
-  imagen: string;
+  imagenes: [string];
   kilometraje: number;
   precio: number;
   motor: string;

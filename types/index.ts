@@ -21,7 +21,7 @@ export interface AutoProps {
     anio: number;
     kilometraje: number;
     precio: number;
-    imagen: string;
+    imagenes: [string];
     ubicacion: string;
     _id: string;
     motor: string; 
