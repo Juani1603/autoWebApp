@@ -50,18 +50,6 @@ const CreatePost = () => {
         formData.append("descripcion", descripcion);
         formData.append("ubicacion", ubicacion);
 
-        console.log("Marca", marca);
-        console.log("Modelo", modelo);
-        console.log("Año", anio);
-        console.log("Kilometraje", kilometraje);
-        console.log("Precio", precio);
-        console.log("Motor", motor);
-        console.log("Transmision", transmision);
-        console.log("Combustible", combustibleSeleccionado);
-        console.log("Caballos de Fuerza", caballosDeFuerza);
-        console.log("Descripción", descripcion);
-        console.log("Ubicación", ubicacion);
-
         imagenes.forEach((imagen) => {
             formData.append("imagenes", imagen);
             console.log(imagen);

@@ -16,9 +16,12 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
     const router = useRouter();
 
     const handleViewDetails = () => {
-        // Usamos el _id de MongoDB para la navegación
-        router.push(`/autos/${_id}`);
-    };
+        // Crear el slug con la marca, modelo, año y los primeros 5 caracteres del ID
+        const slug = `${marca.toLowerCase()}-${modelo.toLowerCase().replace(/\s+/g, '-')}-${anio}-${_id.toString().slice(0, 5)}`;
+        // Usamos el slug para la navegación
+        router.push(`/autos/${slug}`);
+      };
+    
 
     return (
         <div className='car-card group cursor-pointer'>

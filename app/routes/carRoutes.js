@@ -49,7 +49,6 @@ router.post('/createCar', upload.array('imagenes', 15), async (req, res) => {
   try {
     const { marca, modelo, anio, kilometraje, precio, motor, transmision, combustible, caballosDeFuerza, descripcion, ubicacion } = req.body;
 
-    // Convertir los campos numéricos
     const anioNumber = parseInt(anio, 10);
     const kilometrajeNumber = parseInt(kilometraje, 10);
     const precioNumber = parseFloat(precio);
@@ -63,7 +62,6 @@ router.post('/createCar', upload.array('imagenes', 15), async (req, res) => {
       return res.status(400).json({ message: 'Los campos numéricos deben ser válidos' });
     }
 
-    // Crear un arreglo de URLs de las imágenes
     const imagenesUrls = req.files.map(file => `/uploads/${file.filename}`); // La URL de la imagen guardada en el servidor
 
     const newCar = new carModel({
@@ -78,7 +76,7 @@ router.post('/createCar', upload.array('imagenes', 15), async (req, res) => {
       caballosDeFuerza: caballosDeFuerzaNumber,
       descripcion,
       ubicacion,
-      imagenes: imagenesUrls, // Guardamos las URLs
+      imagenes: imagenesUrls, 
     });
 
     await newCar.save();
