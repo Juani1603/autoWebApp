@@ -7,6 +7,7 @@ import { CustomButton } from 'components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
+
 interface AutoContainerProps {
     auto: AutoProps;
 }
@@ -20,8 +21,8 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
         const slug = `${marca.toLowerCase()}-${modelo.toLowerCase().replace(/\s+/g, '-')}-${anio}-${_id.toString().slice(0, 5)}`;
         // Usamos el slug para la navegación
         router.push(`/autos/${slug}`);
-      };
-    
+    };
+
 
     return (
         <div className='car-card group cursor-pointer'>
@@ -41,13 +42,15 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
             </h3>
 
             <div className="relative w-full aspect-video my-2">
-                <Swiper navigation modules={[Navigation]} className="mySwiper" spaceBetween={10} slidesPerView={1}>
+                <Swiper  modules={[Navigation]} className="my-swiper">
                     {imagenes.length > 0 &&
                         imagenes.map((imagen, index) => {
                             const imageUrl = imagen ? `${process.env.NEXT_PUBLIC_API_URL}${imagen}` : null;
                             return (
                                 imageUrl && (
-                                    <SwiperSlide key={index}>
+                                    <SwiperSlide
+                                        key={index}
+                                    >
                                         <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                                             <Image
                                                 src={imageUrl}

@@ -3,6 +3,7 @@ import CarModel from 'app/models/Car';
 import { Metadata } from 'next';
 import AutoDetallesClient from './AutoDetallesClient';
 
+
 interface AutoDetallesProps {
   params: {
     autoId: string;

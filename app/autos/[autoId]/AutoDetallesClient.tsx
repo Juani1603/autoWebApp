@@ -1,11 +1,13 @@
 "use client";
+import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import Image from 'next/image';
 import { ubicaciones, telefonos } from 'constants/index';
-import { useRouter } from 'next/navigation'; 
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface CarProps {
   car: {
@@ -26,8 +28,10 @@ interface CarProps {
 }
 
 const AutoDetallesClient = ({ car, slug }: CarProps) => {
-    const router = useRouter();
-    const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
 
   const {
     marca,
@@ -57,26 +61,82 @@ const AutoDetallesClient = ({ car, slug }: CarProps) => {
   const direccion = ubicaciones[ubicacion] || "Dirección no disponible";
   const telefono = telefonos[ubicacion] || "Teléfono no disponible";
 
+  const handleImageClick = (index: number) => {
+    setCurrentImage(index);
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col pt-32 px-6">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row lg:gap-8 lg:items-center lg:justify-between">
           {/* Imagen del auto */}
-          <div className="relative w-full aspect-video my-2">
-            <Swiper navigation modules={[Navigation]}>
+          <div className="relative w-full max-w-4xl mx-auto aspect-video my-4">
+            <Swiper
+              pagination={{ type: 'fraction' }}
+              navigation
+              modules={[Pagination, Navigation]}
+              className="my-swiper"
+            >
               {imagenes.length > 0 &&
                 imagenes.map((imagen, index) => {
                   const imageUrl = imagen ? `${process.env.NEXT_PUBLIC_API_URL}${imagen}` : null;
                   return (
                     imageUrl && (
                       <SwiperSlide key={index}>
-                        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                        <div
+                          className="relative w-full"
+                          style={{ paddingTop: '56.25%' }}
+                          onClick={() => handleImageClick(index)} // Abre la imagen en el modal al hacer clic
+                        >
                           <Image
                             src={imageUrl}
                             alt={modelo || 'Sin descripción'}
                             fill
                             priority
-                            className="rounded-md object-cover"
+                            className="rounded-md object-cover cursor-pointer"
+                          />
+                        </div>
+                      </SwiperSlide>
+                    )
+                  );
+                })}
+            </Swiper>
+
+      {/* Modal para imagen agrandada */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
+          onClick={handleCloseModal} // Cierra el modal al hacer clic fuera
+        >
+          <div
+            className="relative w-full max-w-4xl"
+            onClick={(e) => e.stopPropagation()} // Evita que el clic en la imagen cierre el modal
+          >
+            <Swiper
+              initialSlide={currentImage}
+              pagination={{ type: 'fraction' }}
+              navigation
+              modules={[Pagination, Navigation]}
+              className="my-swiper"
+            >
+              {imagenes.length > 0 &&
+                imagenes.map((imagen, index) => {
+                  const imageUrl = imagen ? `${process.env.NEXT_PUBLIC_API_URL}${imagen}` : null;
+                  return (
+                    imageUrl && (
+                      <SwiperSlide key={index}>
+                        <div className="relative w-full">
+                          <Image
+                            src={imageUrl}
+                            alt={modelo || 'Imagen ampliada'}
+                            width={1200}
+                            height={800}
+                            className="rounded-md object-contain select-none"
                           />
                         </div>
                       </SwiperSlide>
@@ -85,6 +145,9 @@ const AutoDetallesClient = ({ car, slug }: CarProps) => {
                 })}
             </Swiper>
           </div>
+        </div>
+      )}
+    </div>
 
           {/* Información del auto */}
           <div className="w-full flex flex-col items-start lg:w-1/2 lg:order-2">
@@ -100,11 +163,11 @@ const AutoDetallesClient = ({ car, slug }: CarProps) => {
               <h2>US$ {precio.toLocaleString()}</h2>
             </div>
             <div className="flex flex-col items-start gap-4">
-              <button className="px-6 py-3 mb-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition flex items-center gap-3">
+              <button className=" px-6 py-3 mb-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition flex items-center gap-3">
                 <img src="/whatsapp.svg" alt="Logo WhatsApp" className="w-6 h-6 no-auto-resize" />
                 <span>Contactar</span>
               </button>
-              <p className="text-gray-500 text-sm lg:text-base">
+              <p className="text-gray-500 mb-5 text-sm lg:text-base">
                 También podés llamarnos al <strong>(+598) 2211 1732</strong>
               </p>
             </div>

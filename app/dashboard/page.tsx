@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AutoContainer } from "components";
+import { AutoContainer, BarraBusqueda } from "components";
 import Image from "next/image";
 
 interface Post {
@@ -10,7 +10,7 @@ interface Post {
     marca: string;
     modelo: string;
     anio: number;
-    imagen: string;
+    imagenes: [string];
     kilometraje: number;
     precio: number;
     motor: string;
@@ -25,6 +25,7 @@ const Dashboard = () => {
     const [allCars, setAllCars] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [searchResults, setSearchResults] = useState<Post[]>([]); // Estado para los resultados de búsqueda
     const router = useRouter();
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const Dashboard = () => {
 
                 const data: Post[] = await response.json();
                 setAllCars(data);
+                setSearchResults(data); // Inicialmente mostramos todos los autos
             } catch (err: any) {
                 setError(err.message);
             } finally {
@@ -62,31 +64,45 @@ const Dashboard = () => {
 
             // Filtra el auto eliminado de la lista local
             setAllCars((prevCars) => prevCars.filter((car) => car._id !== id));
+            setSearchResults((prevResults) => prevResults.filter((car) => car._id !== id)); // Actualiza también los resultados de búsqueda
         } catch (err: any) {
             alert(`Error: ${err.message}`);
         }
     };
 
-    const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+    const handleSearch = (marca: string, modelo: string) => {
+        const filteredCars = allCars.filter(
+            (car) =>
+                (marca ? car.marca.toLowerCase().includes(marca.toLowerCase()) : true) &&
+                (modelo ? car.modelo.toLowerCase().includes(modelo.toLowerCase()) : true)
+        );
+        setSearchResults(filteredCars); // Actualiza los resultados de búsqueda
+    };
+
+    const isDataEmpty = !Array.isArray(searchResults) || searchResults.length < 1 || !searchResults;
 
     return (
         <div className="min-h-screen flex flex-col items-center p-4 pt-32">
-            <h2 className="font-bold text-3xl mb-10">Bienvenido</h2>
+            <h1 className="font-bold text-4xl mb-10 mt-5">Bienvenido, Administrador</h1>
             <button
                 onClick={handleCreatePost}
-                className="mb-6 w-64 bg-green-500 text-white p-2 rounded hover:bg-green-600"
+                className="mb-16 w-64 bg-green-500 text-white p-2 rounded hover:bg-green-600"
             >
                 Crear Publicación
             </button>
 
-            <div className="w-full max-w-3xl">
+            <div className="w-full mb-8 flex justify-center align-center">
+                <BarraBusqueda onSearch={handleSearch} />
+            </div>
+
+            <div className="w-full">
                 {loading && <p>Cargando publicaciones...</p>}
                 {error && <p className="text-red-500">{error}</p>}
 
                 {!isDataEmpty ? (
                     <section>
                         <div className="home__cars-wrapper">
-                            {allCars?.map((car) => (
+                            {searchResults?.map((car) => (
                                 <div key={car._id} className="relative">
                                     <AutoContainer key={car._id} auto={car} />
                                     <div className="absolute top-5 right-5 space-x-2">

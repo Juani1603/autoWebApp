@@ -38,6 +38,24 @@
     z-index: -10;
 }
 
+.my-swiper .swiper-button-next,
+.my-swiper .swiper-button-prev {
+  --swiper-navigation-color: #fff; 
+  --swiper-pagination-color: #fff; 
+}
+
+.swiper-pagination {
+  color: white !important; 
+}
+
+@media (max-width: 768px) {
+  .my-swiper {
+    --swiper-navigation-size: 20px; 
+  }
+  .swiper-pagination{
+    font-size: 12px
+  }
+}
 
 .max-width {
   @apply max-w-[1440px] mx-auto;
