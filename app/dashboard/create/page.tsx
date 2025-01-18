@@ -6,6 +6,9 @@ import BuscarMarca from "components/BuscarMarca";
 import { combustible as opcionesCombustible } from "constants/index";
 import { transmision as opcionesTransmision } from "constants/index";
 import { ubicaciones as opcionesUbicaciones } from "constants/index";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import SortableImage from "components/SortableImage";
 
 const CreatePost = () => {
     const [marca, setMarca] = useState<string>("");
@@ -22,14 +25,26 @@ const CreatePost = () => {
     const [imagenes, setImagenes] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-
     const router = useRouter();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setImagenes(Array.from(e.target.files));
+            setImagenes([...imagenes, ...Array.from(e.target.files)]);
         }
     }
+
+    const handleRemoveImage = (index: number) => {
+        setImagenes((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const handleDragEnd = (event: any) => {
+        const { active, over } = event;
+        if (active.id !== over.id) {
+            const oldIndex = imagenes.findIndex((_, i) => i === active.id);
+            const newIndex = imagenes.findIndex((_, i) => i === over.id);
+            setImagenes((prev) => arrayMove(prev, oldIndex, newIndex));
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,8 +67,6 @@ const CreatePost = () => {
 
         imagenes.forEach((imagen) => {
             formData.append("imagenes", imagen);
-            console.log(imagen);
-            
         });
 
         try {
@@ -276,12 +289,26 @@ const CreatePost = () => {
                         onChange={handleFileChange}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                     />
-                    {imagenes.length > 0 && (
-                        <p className="text-sm text-gray-500 mt-1">
-                            {imagenes.length} archivo(s) seleccionado(s).
-                        </p>
-                    )}
                 </div>
+
+                {imagenes.length > 0 && (
+                    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <SortableContext items={imagenes.map((_, i) => i)} strategy={verticalListSortingStrategy}>
+                            <div className="flex flex-wrap gap-2 overflow-x-auto">
+                                {imagenes.map((imagen, index) => (
+                                    <div key={index} className="w-1/3 sm:w-1/4 lg:w-1/6">
+                                        <SortableImage
+                                            id={index}
+                                            image={URL.createObjectURL(imagen)}
+                                            onRemove={() => handleRemoveImage(index)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </SortableContext>
+                    </DndContext>
+                )}
+
 
                 <button
                     type="submit"
