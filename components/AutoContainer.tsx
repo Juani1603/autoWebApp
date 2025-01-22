@@ -19,7 +19,7 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
     const handleViewDetails = () => {
         // Crear el slug con la marca, modelo, año y los primeros 5 caracteres del ID
         const slug = `${marca.toLowerCase().replace(/\s+/g, '-')}-${modelo.toLowerCase().replace(/\s+/g, '-')}-${anio}-${_id.toString().slice(0, 5)}`;
-        // Usamos el slug para la navegación
+        // Usar el slug para la navegación
         router.push(`/autos/${slug}`);
     };
 

@@ -25,7 +25,7 @@ const Dashboard = () => {
     const [allCars, setAllCars] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [searchResults, setSearchResults] = useState<Post[]>([]); // Estado para los resultados de búsqueda
+    const [searchResults, setSearchResults] = useState<Post[]>([]); 
     const router = useRouter();
 
     useEffect(() => {

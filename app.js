@@ -15,14 +15,10 @@ app.use(cors({
     credentials: true,
 }));
 
-
 app.use(express.json());
 app.use(carsRouter);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-
 
 // Conexión a la base de datos
 dbConnect();

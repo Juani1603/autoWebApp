@@ -231,26 +231,26 @@ const AutoDetallesClient = ({ car, slug }: CarProps) => {
         {/* Información */}
         <div className="text-start border-t border-gray-200 pt-8 mb-8">
           <h2 className="text-xl font-bold mb-5 lg:text-2xl">Información</h2>
-          <div className="mb-3 flex items-center gap-2 ml-[-3px] lg:text-xl">
+          <div className="mb-3 flex items-center gap-2 ml-[-3px] lg:text-lg">
             <img src="/location.svg" alt="Ubicación" className="w-5 h-6 no-auto-resize" />
             <strong className="whitespace-nowrap">Ubicación:</strong>
-            <p className="text-sm text-gray-700 break-words lg:text-xl">{ubicacion}</p>
+            <p className="text-sm text-gray-700 break-words lg:text-lg">{ubicacion}</p>
           </div>
-          <div className="mb-3 flex items-center gap-2 ml-[-3px] lg:text-xl">
+          <div className="mb-3 flex items-center gap-2 ml-[-3px] lg:text-lg">
             <img src="/door.svg" alt="Dirección" className="w-5 h-6 no-auto-resize" />
             <strong className="whitespace-nowrap">Dirección:</strong>
-            <p className="text-sm text-gray-700 break-words lg:text-xl">{direccion}</p>
+            <p className="text-sm text-gray-700 break-words lg:text-lg">{direccion}</p>
           </div>
           <div className="mb-3 flex items-center gap-2 ml-[-3px] lg:text-xl">
             <img src="/phone.svg" alt="Dirección" className="w-5 h-6 no-auto-resize" />
             <strong className="whitespace-nowrap">Teléfono:</strong>
-            <p className="text-sm text-gray-700 break-words lg:text-xl">{telefono}</p>
+            <p className="text-sm text-gray-700 break-words lg:text-lg">{telefono}</p>
           </div>
-          <div className="mb-3 flex items-start gap-2 ml-[-3px] lg:text-xl">
+          <div className="mb-3 flex items-start gap-2 ml-[-3px] lg:text-lg">
             <img src="/clock.svg" alt="Horarios" className="w-5 h-6 no-auto-resize" />
             <div>
               <strong className="block pb-1">Horarios de atención:</strong>
-              <p className="text-sm text-gray-700 break-words lg:text-xl">
+              <p className="text-sm text-gray-700 break-words lg:text-lg">
                 Lunes a viernes - 8:00 a 18:00 <br />
                 Sábados - 9:00 a 13:00
               </p>

@@ -23,12 +23,13 @@ const Navbar = () => {
               alt="Amaya Logo Blanco"
               width={150}
               height={50}
+              priority
               className="object-contain no-auto-resize"
               style={{ minWidth: "80px" }}
             />
           </Link>
           <p className="text-white text-4xl font-extralight">|</p>
-          <Image src="/peugeot-logo.svg" alt="Logo Peugeot" priority width={60} height={0} className="object-contain no-auto-resize" />
+          <Image src="/peugeot-logo.svg" alt="Logo Peugeot" priority width={60} height={60} className="object-contain no-auto-resize" />
         </div>
         {/* Icono del usuario */}
         <Link href="/login">
