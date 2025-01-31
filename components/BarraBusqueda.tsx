@@ -9,9 +9,9 @@ const BotonBusqueda = ({ otrasClases }: { otrasClases: string }) => (
     <Image
       src="/magnifying-glass.svg"
       alt="magnifying glass"
-      width={40}
-      height={40}
-      className="object-contain text-gray-700 no-auto-resize"
+      width={30}
+      height={30}
+      className="object-contain text-gray-700 no-auto-resize ml-4"
     />
   </button>
 );

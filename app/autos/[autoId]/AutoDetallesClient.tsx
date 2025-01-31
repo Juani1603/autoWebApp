@@ -156,7 +156,7 @@ const AutoDetallesClient = ({ car, slug }: CarProps) => {
               <span className="text-gray-500 text-md">|</span>
               <span className="text-gray-500 text-md">{kilometraje.toLocaleString('es-UY')} km</span>
             </div>
-            <h1 className="text-2xl font-bold mb-4 text-start lg:text-3xl">
+            <h1 className="text-2xl text-black-100 font-bold mb-4 text-start lg:text-3xl">
               {marca} {modelo} - {motor}
             </h1>
             <div className="text-start text-4xl mb-8">

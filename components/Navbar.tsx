@@ -13,7 +13,7 @@ const Navbar = () => {
   const isDashboardPage = pathname?.includes("/dashboard");
 
   return (
-    <header className={`w-full absolute z-10 ${isAutoPage || isLoginPage || isDashboardPage ? 'bg-black' : ''}`}>
+    <header className={`w-full absolute z-10 ${isAutoPage || isLoginPage || isDashboardPage ? 'bg-zinc-900' : ''}`}>
       <nav className={`max-w-[1440px] max-h-[100px] mx-auto flex justify-between items-center pt-2 sm:px-16 px-6 py-4}`}>
         {/* Contenedor para agrupar los logos */}
         <div className="flex items-center gap-10">

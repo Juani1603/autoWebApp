@@ -25,7 +25,10 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
 
 
     return (
-        <div className='car-card group cursor-pointer'>
+        <div
+            className='car-card group cursor-pointer'
+            onClick={handleViewDetails}
+        >
             <div className='car-card__content'>
                 <h2 className='car-card__content-title'>
                     {marca} {modelo}
@@ -37,12 +40,12 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
                 </span>
             </p>
 
-            <h3 className='flex mt-4 text-[24px] font-extrabold'>
+            <h3 className='flex mt-4 text-[24px] font-extrabold text-black-100'>
                 ${new Intl.NumberFormat('es-UR', { style: 'decimal', minimumFractionDigits: 0 }).format(precio)}
             </h3>
 
             <div className="relative w-full aspect-video my-2">
-                <Swiper  modules={[Navigation]} className="my-swiper">
+                <Swiper modules={[Navigation]} className="my-swiper">
                     {imagenes.length > 0 &&
                         imagenes.map((imagen, index) => {
                             const imageUrl = imagen ? `${process.env.NEXT_PUBLIC_API_URL}${imagen}` : null;
@@ -65,19 +68,6 @@ const AutoContainer = ({ auto }: AutoContainerProps) => {
                             );
                         })}
                 </Swiper>
-            </div>
-
-
-            <div className='relative flex w-full mt-2'>
-                <div className='car-card__btn-container'>
-                    <CustomButton
-                        title='Ver detalles'
-                        containerStyles='w-full py-[12px] mb-[10px] rounded-full bg-primary-blue'
-                        textStyles="text-white text-[14px] leading-[10px] font-bold"
-                        rightIcon="/right-arrow.svg"
-                        handleClick={handleViewDetails}
-                    />
-                </div>
             </div>
         </div>
     );
