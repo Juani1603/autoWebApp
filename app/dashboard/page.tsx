@@ -54,21 +54,21 @@ const Dashboard = () => {
     const handleDeletePost = async (id: string) => {
         const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta publicación?");
         if (!confirmDelete) return;
-
+      
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteCar?id=${id}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) throw new Error("Error al eliminar el auto");
-
-            // Filtra el auto eliminado de la lista local
-            setAllCars((prevCars) => prevCars.filter((car) => car._id !== id));
-            setSearchResults((prevResults) => prevResults.filter((car) => car._id !== id)); // Actualiza también los resultados de búsqueda
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteCar?id=${id}`, {
+            method: "DELETE",
+          });
+      
+          if (!response.ok) throw new Error("Error al eliminar el auto");
+      
+          setAllCars((prevCars) => prevCars.filter((car) => car._id !== id));
+          setSearchResults((prevResults) => prevResults.filter((car) => car._id !== id)); 
+      
         } catch (err: any) {
-            alert(`Error: ${err.message}`);
+          alert(`Error: ${err.message}`);
         }
-    };
+      };
 
     const handleSearch = (marca: string, modelo: string) => {
         const filteredCars = allCars.filter(

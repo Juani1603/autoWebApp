@@ -28,11 +28,46 @@ const CreatePost = () => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const convertToWebP = async (file: File): Promise<File> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async (event) => {
+                const img = document.createElement("img");
+                img.src = event.target?.result as string;
+                
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+    
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx?.drawImage(img, 0, 0);
+    
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}.webp`;
+                            resolve(new File([blob], uniqueName, { type: "image/webp" }));
+                        } else {
+                            reject(new Error("Error al convertir la imagen a WebP"));
+                        }
+                    }, "image/webp");
+                };
+                img.onerror = () => reject(new Error("Error al cargar la imagen"));
+            };
+            reader.onerror = () => reject(new Error("Error al leer el archivo"));
+        });
+    };
+    
+    
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setImagenes([...imagenes, ...Array.from(e.target.files)]);
+            const files = Array.from(e.target.files);
+            const webpFiles = await Promise.all(files.map(convertToWebP));
+            setImagenes([...imagenes, ...webpFiles]);
         }
-    }
+    };
 
     const handleRemoveImage = (index: number) => {
         setImagenes((prev) => prev.filter((_, i) => i !== index));
@@ -279,7 +314,7 @@ const CreatePost = () => {
 
                 <div className="mb-4">
                     <label htmlFor="imagenes" className="block text-sm font-medium text-gray-700 mb-2">
-                        Seleccionar imágenes (máx. 15)
+                        Seleccionar imágenes (máx. 25)
                     </label>
                     <div className="relative border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-primary-blue-500 focus-within:ring-2 focus-within:ring-primary-blue-500 cursor-pointer">
                         <label

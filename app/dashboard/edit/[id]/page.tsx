@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import BuscarMarca from "components/BuscarMarca";
 import { combustible as opcionesCombustible } from "constants/index";
@@ -10,6 +10,38 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import SortableImage from "components/SortableImage";
 import Image from "next/image";
+
+const convertToWebP = async (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = async (event) => {
+            const img = document.createElement("img");
+            img.src = event.target?.result as string;
+            
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx?.drawImage(img, 0, 0);
+
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}.webp`;
+                        resolve(new File([blob], uniqueName, { type: "image/webp" }));
+                    } else {
+                        reject(new Error("Error al convertir la imagen a WebP"));
+                    }
+                }, "image/webp");
+            };
+            img.onerror = () => reject(new Error("Error al cargar la imagen"));
+        };
+        reader.onerror = () => reject(new Error("Error al leer el archivo"));
+    });
+};
+
 
 const EditPost = () => {
     const { id } = useParams(); // Obtiene el ID del auto desde la URL
@@ -65,10 +97,11 @@ const EditPost = () => {
     }, [id]);
 
     // Manejo de archivos seleccionados
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const nuevasImagenes = Array.from(e.target.files);
-            setImagenesExistentes((prev) => [...prev, ...nuevasImagenes]);
+            const webpFiles = await Promise.all(nuevasImagenes.map(convertToWebP));
+            setImagenesExistentes((prev) => [...prev, ...webpFiles]);
         }
     };
 
@@ -330,7 +363,7 @@ const EditPost = () => {
 
                 <div className="mb-4">
                     <label htmlFor="imagenes" className="block text-sm font-medium text-gray-700 mb-2">
-                        Seleccionar imágenes (máx. 15)
+                        Seleccionar imágenes (máx. 25)
                     </label>
                     <div className="relative border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-primary-blue-500 focus-within:ring-2 focus-within:ring-primary-blue-500 cursor-pointer">
                         <label

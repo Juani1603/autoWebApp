@@ -13,9 +13,9 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    const fileName = Date.now() + path.extname(file.originalname);
-    cb(null, fileName);
-  },
+    const uniqueName = `${Date.now()}-${Math.random().toString(36).substr(2, 5)}.webp`;
+    cb(null, uniqueName);
+  }
 });
 
 const upload = multer({
@@ -68,7 +68,7 @@ router.get('/getCar/:id', async (req, res) => {
 
 
 // Ruta POST para crear un nuevo auto
-router.post('/createCar', upload.array('imagenes', 15), async (req, res) => {
+router.post('/createCar', upload.array('imagenes', 25), async (req, res) => {
   try {
     const {
       marca, modelo, anio, kilometraje, precio, motor,
@@ -89,32 +89,7 @@ router.post('/createCar', upload.array('imagenes', 15), async (req, res) => {
       return res.status(400).json({ message: 'Los campos numéricos deben ser válidos' });
     }
 
-    const imagenesUrls = [];
-    for (const file of req.files) {
-      const inputPath = file.path;
-      const outputFilename = `${path.parse(file.originalname).name}.webp`;
-      const outputPath = path.join('uploads', outputFilename);
-
-      // Convertir a .webp usando sharp
-      await sharp(inputPath)
-        .webp({ quality: 100 })
-        .toFile(outputPath)
-        .then(async () => {
-          // Después de la conversión, elimina el archivo original con fs-extra
-          const fileExists = await fs.pathExists(inputPath);
-          if (fileExists) {
-            await fs.remove(inputPath);
-          } else {
-            console.warn(`El archivo original no existe: ${inputPath}`);
-          }
-        })
-        .catch((err) => {
-          console.error('Error al convertir la imagen:', err);
-        });
-
-      // Guardar URL de la imagen procesada
-      imagenesUrls.push(`/uploads/${outputFilename}`);
-    }
+    const imagenesUrls = req.files.map(file => `/uploads/${file.filename}`);
 
     const newCar = new carModel({
       marca,
@@ -141,7 +116,7 @@ router.post('/createCar', upload.array('imagenes', 15), async (req, res) => {
 
 
 
-// Ruta DELETE para eliminar un automóvil
+// Ruta DELETE para eliminar un auto
 router.delete('/deleteCar', async (req, res) => {
   const { id } = req.query;
 
@@ -150,10 +125,26 @@ router.delete('/deleteCar', async (req, res) => {
   }
 
   try {
-    const car = await carModel.findByIdAndDelete(id);
-    if (!car) {
+    const carToDelete = await carModel.findById(id);
+    if (!carToDelete) {
       return res.status(404).json({ message: 'Auto no encontrado' });
     }
+
+    // Eliminar las imágenes de la carpeta 'uploads'
+    const imagenes = carToDelete.imagenes || [];
+    imagenes.forEach((imagen) => {
+      const imagePath = path.resolve('uploads', imagen.replace('/uploads/', ''));
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Error al eliminar la imagen:', err);
+        } else {
+          console.log(`Imagen eliminada: ${imagePath}`);
+        }
+      });
+    });
+
+    // Eliminar el auto de la base de datos
+    await carModel.findByIdAndDelete(id);
 
     res.status(200).json({ message: 'Auto eliminado correctamente' });
   } catch (error) {
@@ -162,8 +153,9 @@ router.delete('/deleteCar', async (req, res) => {
   }
 });
 
+
 // Ruta PUT para actualizar un auto
-router.put('/edit/:id', upload.array('imagenes', 15), async (req, res) => {
+router.put('/edit/:id', upload.array('imagenes', 25), async (req, res) => {
   const { id } = req.params;
   const {
     marca,
@@ -195,34 +187,8 @@ router.put('/edit/:id', upload.array('imagenes', 15), async (req, res) => {
 
   let imagenesExistentes = JSON.parse(req.body.imagenesExistentes);
 
-  // Procesar nuevas imágenes subidas
-  const imagenesNuevas = [];
-  for (const file of req.files) {
-    const inputPath = file.path;
-    const outputFilename = `${path.parse(file.originalname).name}.webp`;
-    const outputPath = path.join('uploads', outputFilename);
-
-    // Convertir a .webp usando sharp
-    await sharp(inputPath)
-      .webp({ quality: 100 })
-      .toFile(outputPath)
-      .then(async () => {
-        // Después de la conversión, elimina el archivo original
-        try {
-          await fs.access(inputPath); 
-          await fs.unlink(inputPath); 
-          console.log(`Archivo original eliminado: ${inputPath}`);
-        } catch (err) {
-          console.error('Error al eliminar el archivo original:', err);
-        }
-      })
-      .catch((err) => {
-        console.error('Error al convertir la imagen:', err);
-      });
-
-    // Agregar la nueva imagen al array de nuevas imágenes
-    imagenesNuevas.push(`/uploads/${outputFilename}`);
-  }
+  // Nuevas imágenes subidas (ya convertidas a WebP en el frontend)
+  const imagenesNuevas = req.files.map(file => `/uploads/${file.filename}`);
 
   // Unir las imágenes existentes y las nuevas en un solo array
   const imagenesUrls = [...imagenesExistentes, ...imagenesNuevas];

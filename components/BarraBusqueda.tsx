@@ -23,7 +23,7 @@ const BarraBusqueda = ({ onSearch }: { onSearch: (marca: string, modelo: string)
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("Marca:", marca, "Modelo:", modelo); // Log para depuración
+    console.log("Marca:", marca, "Modelo:", modelo); 
     if (marca.trim() === "" && modelo.trim() === "") {
       alert("Ingresa al menos una marca o un modelo");
       return;
