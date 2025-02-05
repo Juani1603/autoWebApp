@@ -25,7 +25,7 @@ const Dashboard = () => {
     const [allCars, setAllCars] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [searchResults, setSearchResults] = useState<Post[]>([]); 
+    const [searchResults, setSearchResults] = useState<Post[]>([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -54,21 +54,21 @@ const Dashboard = () => {
     const handleDeletePost = async (id: string) => {
         const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta publicación?");
         if (!confirmDelete) return;
-      
+
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteCar?id=${id}`, {
-            method: "DELETE",
-          });
-      
-          if (!response.ok) throw new Error("Error al eliminar el auto");
-      
-          setAllCars((prevCars) => prevCars.filter((car) => car._id !== id));
-          setSearchResults((prevResults) => prevResults.filter((car) => car._id !== id)); 
-      
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteCar?id=${id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) throw new Error("Error al eliminar el auto");
+
+            setAllCars((prevCars) => prevCars.filter((car) => car._id !== id));
+            setSearchResults((prevResults) => prevResults.filter((car) => car._id !== id));
+
         } catch (err: any) {
-          alert(`Error: ${err.message}`);
+            alert(`Error: ${err.message}`);
         }
-      };
+    };
 
     const handleSearch = (marca: string, modelo: string) => {
         const filteredCars = allCars.filter(
@@ -86,10 +86,18 @@ const Dashboard = () => {
             <h1 className="font-bold text-4xl mb-10 mt-5">Bienvenido, Administrador</h1>
             <button
                 onClick={handleCreatePost}
-                className="mb-16 w-64 bg-green-500 text-white p-2 rounded hover:bg-green-600"
+                className="mb-16 w-full max-w-xs bg-green-500 text-white py-3 px-5 rounded hover:bg-green-600 flex items-center justify-center gap-3"
             >
-                Crear Publicación
+                <div className="w-8 h-8 mr-[-10px] ml-1 flex-shrink-0">
+                    <img src="/file.svg" alt="file" className="w-full h-full" />
+                </div>
+
+                <div className="flex-1 flex flex-col items-center">
+                    <span className="text-xl font-semibold">Crear Publicación</span>
+                </div>
             </button>
+
+
 
             <div className="w-full mb-8 flex justify-center align-center">
                 <BarraBusqueda onSearch={handleSearch} />
@@ -113,8 +121,8 @@ const Dashboard = () => {
                                             <Image
                                                 src="/pencil.svg"
                                                 alt="pencil"
-                                                width={20}
-                                                height={20}
+                                                width={25}
+                                                height={25}
                                                 className="text-white no-auto-resize"
                                             />
                                         </button>
@@ -125,8 +133,8 @@ const Dashboard = () => {
                                             <Image
                                                 src="/trash.svg"
                                                 alt="trash"
-                                                width={20}
-                                                height={20}
+                                                width={25}
+                                                height={25}
                                                 className="text-white no-auto-resize"
                                             />
                                         </button>
