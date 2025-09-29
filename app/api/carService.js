@@ -1,8 +1,6 @@
-const dbConnect = require('../utils/db');
 const Car = require('../models/Car');
 
 const findCarsByFilters = async (filters) => {
-    await dbConnect();
 
     const query = {};
     if (filters.marca) query.marca = new RegExp(`^${filters.marca}$`, 'i');

@@ -1,8 +1,7 @@
-import dbConnect from 'app/utils/db';
 import CarModel from 'app/models/Car';
 import { Metadata } from 'next';
 import AutoDetallesClient from './AutoDetallesClient';
-
+import dbConnect from 'app/utils/db';
 
 interface AutoDetallesProps {
   params: {
@@ -14,8 +13,6 @@ export async function generateMetadata({ params }: AutoDetallesProps): Promise<M
   const { autoId } = await params;
 
   await dbConnect();
-
-  // Buscar el auto directamente por el slug (no por ObjectId)
   const car = await CarModel.findOne({ slug: autoId });
 
   if (!car) {
@@ -35,8 +32,6 @@ const Page = async ({ params }: AutoDetallesProps) => {
   const { autoId } = await params;
 
   await dbConnect();
-
-  // Buscar el auto directamente por el slug
   const car = await CarModel.findOne({ slug: autoId });
 
   if (!car) {
@@ -49,7 +44,6 @@ const Page = async ({ params }: AutoDetallesProps) => {
     _id: car._id.toString(),
   };
 
-  // Pasamos los datos del auto al componente cliente
   return <AutoDetallesClient car={carData} slug={autoId} />;
 };
 

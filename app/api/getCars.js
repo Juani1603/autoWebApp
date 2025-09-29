@@ -1,8 +1,6 @@
-const dbConnect = require('../utils/db'); 
 const Car = require('../models/Car'); 
 
 module.exports = async function handler(req, res) {
-  await dbConnect();
 
   if (req.method === 'GET') {
     const cars = await Car.find({});

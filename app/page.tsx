@@ -2,6 +2,7 @@
 
 import { Inicio, BarraBusqueda, AutoContainer } from "components";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 interface Car {
   _id: string;
@@ -38,12 +39,19 @@ export default function Home() {
       }
 
       const response = await fetch(url);
+
+      if (response.status === 404) {
+        setAllCars([]);
+        return;
+      }
+
       if (!response.ok) throw new Error("Error al obtener los autos");
 
       const data: Car[] = await response.json();
       setAllCars(data);
     } catch (err: any) {
       setError(err.message);
+      setAllCars([]);
     } finally {
       setLoading(false);
     }
@@ -54,39 +62,51 @@ export default function Home() {
   }, []);
 
   const handleSearch = (marca: string, modelo: string) => {
-    fetchCars(marca, modelo);
+    if (!marca && !modelo) {
+      fetchCars();
+    } else {
+      fetchCars(marca, modelo);
+    }
   };
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1;
 
   return (
-    <main className="overflow-hidden bg-gray-50 pb-10">
-      <Inicio />
+    <motion.div exit={{ opacity: 0 }} animate={{ opacity: 1 }} initial={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      <main className="overflow-hidden bg-gray-50 pb-10">
+        <Inicio />
 
-      <div className="mt-16 padding-x padding-y max-width" id="discover">
-        <div className="home__text-container">
-          <h2 className="text-4xl font-extrabold">Catálogo de autos</h2>
-          <p>Explora y encuentra el auto de tus sueños</p>
-        </div>
-
-        <div className='home__filters'>
-          <BarraBusqueda onSearch={handleSearch} />
-        </div>
-
-        {!isDataEmpty ? (
-          <section>
-            <div className="home__cars-wrapper">
-              {allCars?.map((car) => (
-                <AutoContainer key={car._id} auto={car} />
-              ))}
-            </div>
-          </section>
-        ) : (
-          <div className="home__error-container">
-            <h2 className="text-black text-xl font-bold">No se encontraron resultados</h2>
+        <div className="mt-16 padding-x padding-y max-width" id="discover">
+          <div className="home__text-container">
+            <h2 className="text-4xl font-extrabold">Catálogo de autos</h2>
+            <p>Explora y encuentra el auto de tus sueños</p>
           </div>
-        )}
-      </div>
-    </main>
+
+          <div className='home__filters'>
+            <BarraBusqueda onSearch={handleSearch} />
+          </div>
+
+          {loading ? (
+            <div className="home__loading-container">
+              <p className="text-gray-600">Cargando autos...</p>
+            </div>
+          ) : !isDataEmpty ? (
+            <section>
+              <div className="home__cars-wrapper">
+                {allCars.map((car) => (
+                  <AutoContainer key={car._id} auto={car} />
+                ))}
+              </div>
+            </section>
+          ) : (
+            <div className="home__error-container">
+              <h2 className="text-black text-xl font-bold">
+                No se encontraron resultados
+              </h2>
+            </div>
+          )}
+        </div>
+      </main>
+    </motion.div>
   );
 }

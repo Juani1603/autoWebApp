@@ -1,11 +1,9 @@
 
-import dbConnect from "../utils/db"; 
 import Car from "../models/Car"; 
 
 export default async function handler(req , res ) {
     if (req.method === "POST") {
         try {
-            await dbConnect();
 
             const {
                 marca,

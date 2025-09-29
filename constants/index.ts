@@ -39,14 +39,10 @@ export const marcas = [
   ];
 
   export const ubicaciones:{ [key: string]: string } = {
-    "Amaya Motors - Propios": "Bv. José Batlle y Ordóñez 3848, Montevideo",
-    "Amaya Motors - Pocitos": "Bartolito Mitre 2782, Montevideo",
+    "Automotora - Propios": "Bv. José Batlle y Ordóñez",
+    "Automotora - Punta Carretas": "Bv. España, Montevideo",
   };
 
-  export const telefonos: { [key: string]: string } = {
-    "Amaya Motors - Propios": "2211 1732",
-    "Amaya Motors - Pocitos": "2211 2938",
-  };
    
   export const combustible: { title: string; value: string }[] = [
     {
@@ -82,10 +78,8 @@ export const marcas = [
     {
       title: "Acerca de",
       links: [
-        { title: "How it works", url: "/" },
-        { title: "Featured", url: "/" },
-        { title: "Partnership", url: "/" },
-        { title: "Bussiness Relation", url: "/" },
+        { title: "Sobre nosotros", url: "/" },
+        { title: "Contacto", url: "/" },
       ],
     },
     {

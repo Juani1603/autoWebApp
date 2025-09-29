@@ -141,15 +141,12 @@ const EditPost = () => {
         formData.append("descripcion", descripcion);
         formData.append("ubicacion", ubicacion);
 
-        // Procesar las URLs existentes para eliminar el dominio
         const urlsExistentes = imagenesExistentes
             .filter((imagen) => typeof imagen === "string")
-            .map((url) => url.replace(`${process.env.NEXT_PUBLIC_API_URL}`, "")); // Elimina el dominio
+            .map((url) => url.replace(`${process.env.NEXT_PUBLIC_API_URL}`, "")); 
 
-        // Agregar URLs procesadas como JSON
         formData.append("imagenesExistentes", JSON.stringify(urlsExistentes));
 
-        // Agregar archivos nuevos al FormData
         const archivosNuevos = imagenesExistentes.filter((imagen) => imagen instanceof File);
         archivosNuevos.forEach((archivo) => {
             formData.append("imagenes", archivo);
@@ -185,7 +182,7 @@ const EditPost = () => {
                         Marca
                     </label>
                     <BuscarMarca
-                        marca={marca} // Pre-cargar el valor de la marca del auto
+                        marca={marca} 
                         definirMarca={setMarca}
                         customClass="border-2 border-gray-300 bg-white rounded-lg"
                     />
@@ -198,7 +195,7 @@ const EditPost = () => {
                     <input
                         type="text"
                         id="modelo"
-                        value={modelo} // Pre-cargar el valor del modelo
+                        value={modelo} 
                         placeholder="Vento GLI"
                         onChange={(e) => setModelo(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
@@ -213,7 +210,7 @@ const EditPost = () => {
                     <input
                         type="number"
                         id="anio"
-                        value={anio} // Pre-cargar el valor del año
+                        value={anio} 
                         placeholder="2023"
                         onChange={(e) => setAnio(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
@@ -228,7 +225,7 @@ const EditPost = () => {
                     <input
                         type="number"
                         id="kilometraje"
-                        value={kilometraje} // Pre-cargar el valor del kilometraje
+                        value={kilometraje} 
                         placeholder="10000"
                         onChange={(e) => setKilometraje(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
@@ -243,7 +240,7 @@ const EditPost = () => {
                     <input
                         type="number"
                         id="precio"
-                        value={precio} // Pre-cargar el valor del precio
+                        value={precio} 
                         placeholder="50000"
                         onChange={(e) => setPrecio(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
@@ -258,7 +255,7 @@ const EditPost = () => {
                     <input
                         type="text"
                         id="motor"
-                        value={motor} // Pre-cargar el valor del motor
+                        value={motor} 
                         placeholder="2.0"
                         onChange={(e) => setMotor(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
@@ -272,7 +269,7 @@ const EditPost = () => {
                     </label>
                     <select
                         id="transmision"
-                        value={transmision} // Pre-cargar el valor de la transmisión
+                        value={transmision} 
                         onChange={(e) => setTransmision(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                         required
@@ -294,7 +291,7 @@ const EditPost = () => {
                     </label>
                     <select
                         id="combustible"
-                        value={combustibleSeleccionado} // Pre-cargar el valor del combustible
+                        value={combustibleSeleccionado}
                         onChange={(e) => setCombustibleSeleccionado(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
                         required
@@ -317,7 +314,7 @@ const EditPost = () => {
                     <input
                         type="number"
                         id="caballosDeFuerza"
-                        value={caballosDeFuerza} // Pre-cargar el valor de caballos de fuerza
+                        value={caballosDeFuerza} 
                         placeholder="250"
                         onChange={(e) => setCaballosDeFuerza(Number(e.target.value))}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
@@ -331,7 +328,7 @@ const EditPost = () => {
                     </label>
                     <textarea
                         id="descripcion"
-                        value={descripcion} // Pre-cargar el valor de la descripción
+                        value={descripcion} 
                         onChange={(e) => setDescripcion(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-300"
                         rows={4}
@@ -345,7 +342,7 @@ const EditPost = () => {
                     </label>
                     <select
                         id="ubicacion"
-                        value={ubicacion} // Pre-cargar el valor de la ubicación
+                        value={ubicacion} 
                         onChange={(e) => setUbicacion(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                         required
@@ -390,7 +387,6 @@ const EditPost = () => {
                         <SortableContext items={imagenesExistentes.map((_, i) => i)} strategy={verticalListSortingStrategy}>
                             <div className="flex flex-wrap gap-2 overflow-x-hidden mt-4 mb-4">
                                 {imagenesExistentes.map((imagen, index) => {
-                                    // Verificar si la imagen es un archivo o una URL existente
                                     const imageSrc = typeof imagen === "string" ? imagen : URL.createObjectURL(imagen);
                                     return (
                                         <div key={index} className="w-1/2 sm:w-1/4 lg:w-1/6 relative">

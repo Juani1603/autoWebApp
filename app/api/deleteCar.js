@@ -1,4 +1,3 @@
-import dbConnect from '../utils/db';
 import Car from '../models/Car'; 
 
 export default async function handler(req, res) {
@@ -9,8 +8,6 @@ export default async function handler(req, res) {
     const { id } = req.query;
 
     try {
-        await dbConnect();
-
         const car = await Car.findByIdAndDelete(id);
         if (!car) {
             return res.status(404).json({ message: 'Auto no encontrado' });

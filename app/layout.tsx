@@ -4,7 +4,7 @@ import "./globals.css";
 import { Footer, Navbar } from "components";
 
 export const metadata: Metadata = {
-  title: "Amaya Motors",
+  title: "AutoWebApp",
   description: "Descubre tu próximo auto",
 };
 

@@ -50,22 +50,6 @@ router.get('/getCars', async (req, res) => {
   }
 });
 
-// Ruta GET para obtener un auto específico por su ID
-router.get('/getCar/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const car = await carModel.findById(id);
-    if (!car) {
-      return res.status(404).json({ message: 'Auto no encontrado' });
-    }
-    res.status(200).json(car);
-  } catch (error) {
-    console.error('Error al obtener el auto:', error);
-    res.status(500).json({ message: 'Error al obtener el auto', error: error.message });
-  }
-});
-
 
 // Ruta POST para crear un nuevo auto
 router.post('/createCar', upload.array('imagenes', 25), async (req, res) => {
@@ -190,7 +174,6 @@ router.put('/edit/:id', upload.array('imagenes', 25), async (req, res) => {
   // Nuevas imágenes subidas (ya convertidas a WebP en el frontend)
   const imagenesNuevas = req.files.map(file => `/uploads/${file.filename}`);
 
-  // Unir las imágenes existentes y las nuevas en un solo array
   const imagenesUrls = [...imagenesExistentes, ...imagenesNuevas];
 
   try {
@@ -208,7 +191,7 @@ router.put('/edit/:id', upload.array('imagenes', 25), async (req, res) => {
         caballosDeFuerza: caballosDeFuerzaNumber,
         descripcion,
         ubicacion,
-        imagenes: imagenesUrls,  // Actualizar las imágenes del auto
+        imagenes: imagenesUrls,  
       },
       { new: true }
     );

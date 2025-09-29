@@ -16,7 +16,7 @@ const Inicio = () => {
     return (
         <div className="relative w-full h-screen">
             <Image
-                src="/back8.webp"
+                src="/background.webp"
                 alt="Auto en movimiento"
                 fill
                 style={{ objectFit: 'cover' }}

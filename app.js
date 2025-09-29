@@ -1,11 +1,14 @@
-const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config();
+
+const express = require('express');
 const dbConnect = require('./app/utils/db');
 const carsRouter = require('./app/routes/carRoutes');
 const cors = require('cors');
 const path = require('path');
+const authRouter = require('./app/routes/authRoutes');
 
-dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -17,6 +20,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(carsRouter);
+app.use(authRouter);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
