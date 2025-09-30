@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## AutoWebApp – Documentación del Proyecto
 
 First, run the development server:
 
@@ -14,23 +14,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+AutoWebApp es una aplicación web ficticia para la gestión de vehículos en una automotora. Es un proyecto full-stack desarrollado con TypeScript, React, Next.js, Tailwind CSS y MongoDB. Permite a usuarios autenticados crear, leer, actualizar y eliminar (CRUD) registros de autos; además ofrece filtros de búsqueda por marca y modelo, y convierte automáticamente imágenes JPG/PNG al formato WebP para optimizar su tamaño.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tecnologías utilizadas
 
-## Learn More
+TypeScript: un superconjunto tipado de JavaScript que añade verificación de tipos en tiempo de compilación
 
-To learn more about Next.js, take a look at the following resources:
+React: una biblioteca de JavaScript para construir interfaces de usuario basadas en componentes
+. React facilita crear vistas interactivas de forma declarativa; se encarga de renderizar eficientemente los componentes correctos cuando cambian los datos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Next.js: un framework de React que permite desarrollar aplicaciones web completas (incluyendo servidor y cliente) de manera integrada. Next.js facilita el renderizado del lado servidor y la creación de API routes internas. De hecho, “Next.js permite crear endpoints públicos para manejar peticiones HTTP y devolver cualquier tipo de contenido”
+nextjs.org
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Tailwind CSS: un framework CSS utility-first muy popular, que ofrece clases predefinidas para diseñar directamente en el HTML
+tailwindcss.com
+. Permite estilizar rápido la interfaz con clases como flex, pt-4, text-center, etc., haciendo que el código sea más predecible y sencillo de escalar
+tailwindcss.com
 
-## Deploy on Vercel
+MongoDB: una base de datos NoSQL orientada a documentos. En MongoDB los datos se almacenan como documentos JSON/BSON flexibles en colecciones. Tal como explica la documentación oficial, los “documents store data in field-value pairs” (se almacenan en pares campo-valor) y pueden incluir tipos variados como cadenas, números, fechas, arreglos u objetos
+mongodb.com
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+JSON Web Tokens (JWT): estándar abierto para transmisión segura de datos entre cliente y servidor
+keepcoding.io
+. En AutoWebApp, JWT se usa para autenticación: al iniciar sesión, el servidor emite un token compacto (self-contained) que contiene datos del usuario firmados. 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Conversión de imágenes: se emplea en el backend una librería como Sharp para procesar imágenes. Sharp es un módulo de Node.js de alto rendimiento que convierte imágenes (JPG/PNG) a formatos más pequeños y amigables para la web, incluyendo WebP
+. Esto reduce el tamaño de las imágenes hasta ~30% menos que JPEG sin perder calidad perceptible
