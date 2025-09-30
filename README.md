@@ -2,17 +2,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## AutoWebApp – Documentación del Proyecto
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
 AutoWebApp es una aplicación web ficticia para la gestión de vehículos en una automotora. Es un proyecto full-stack desarrollado con TypeScript, React, Next.js, Tailwind CSS y MongoDB. Permite a usuarios autenticados crear, leer, actualizar y eliminar (CRUD) registros de autos; además ofrece filtros de búsqueda por marca y modelo, y convierte automáticamente imágenes JPG/PNG al formato WebP para optimizar su tamaño.
 
