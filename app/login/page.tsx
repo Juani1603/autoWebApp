@@ -26,7 +26,7 @@ const Login = () => {
       }
 
       const data = await res.json();
-      localStorage.setItem("token", data.token); // guardamos token
+      localStorage.setItem("token", data.token); 
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);

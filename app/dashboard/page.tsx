@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   const router = useRouter();
 
-  // 🔹 Verificación de token
+  // Verificación de token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -40,7 +40,7 @@ const Dashboard = () => {
     setAuthorized(true);
   }, [router]);
 
-  // 🔹 Cargar autos solo si está autorizado
+  // Cargar autos solo si está autorizado
   useEffect(() => {
     if (!authorized) return;
 
